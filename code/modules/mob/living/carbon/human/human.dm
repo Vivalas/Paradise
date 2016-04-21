@@ -122,6 +122,10 @@
 	h_style = "Bald"
 	..(new_loc, "Diona")
 
+/mob/living/carbon/human/pilot/New(var/new_loc)
+	h_style = "Bald"
+	..(new_loc, "Yin")
+
 /mob/living/carbon/human/machine/New(var/new_loc)
 	h_style = "blue IPC screen"
 	..(new_loc, "Machine")
