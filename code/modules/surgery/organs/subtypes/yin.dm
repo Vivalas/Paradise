@@ -136,7 +136,7 @@
 	icon = 'icons/mob/mob.dmi'
 	icon_state = "headcrab"
 	vital = 1
-	max_damage = 200
+	max_damage = 100
 	slot = "brain"
 	status = ORGAN_ROBOT
 
