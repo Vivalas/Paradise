@@ -246,6 +246,17 @@
 	flags = RESTRICTED | WHITELISTED
 	syllables = list("02011","01222","10100","10210","21012","02011","21200","1002","2001","0002","0012","0012","000","120","121","201","220","10","11","0")
 
+/datum/language/yin
+	name = "Yinnish"
+	desc = "The spoken language of the Yin."
+	speech_verb = "says"
+	ask_verb = "asks"
+	exclaim_verb = "exclaims"
+	colour = "trinary"
+	key = "yi"
+	flags = RESTRICTED | WHITELISTED
+	syllables = list("bin","cin","chin","din","fin","ghin","hin","jin","kin","lin","min","nin","pin","qin","rin","sin","shin","tin","vin","xin","yin","zin")
+
 /datum/language/trinary/get_random_name()
 	var/new_name
 	if(prob(70))

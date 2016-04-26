@@ -130,15 +130,15 @@
 
 
 /obj/item/organ/internal/brain/yinslug
-	name = "brain"
+	name = "pilot"
+	desc = "A small, intelligent creature mostly made of nerve tissue. Maybe it needs help finding its vessel?"
 	organ_tag = "brain"
 	parent_organ = "head"
-	icon = 'icons/mob/mob.dmi'
-	icon_state = "headcrab"
+	icon = 'icons/mob/yin_pilot.dmi'
+	icon_state = "yin_icon"
 	vital = 1
-	max_damage = 100
+	max_damage = 200
 	slot = "brain"
-	status = ORGAN_ROBOT
 
 /obj/item/organ/internal/brain/yinslug/New()
 	..()
@@ -149,17 +149,24 @@
 	return ..()
 
 /obj/item/organ/internal/brain/yinslug/process()
+    if(isturf(loc) && !owner)
+        for(var/mob/M in contents)
+            M.forceMove(get_turf(src))
+        qdel(src)
 
-	if(istype(loc,/turf) || !(contents.len))
-
-		for(var/mob/M in contents)
-
-			var/atom/movable/mob_container
-			mob_container = M
-			mob_container.forceMove(get_turf(src))
-			M.reset_view()
-
-		qdel(src)
+/obj/item/organ/internal/brain/yinslug/remove(var/mob/living/user,special = 0)
+    spawn(1)
+        if(!special)
+            var/mob/living/simple_animal/yin/Pilot = new /mob/living/simple_animal/yin(loc)
+            if(owner.mind)
+                Pilot.cached_dna = src.dna.Clone()
+                Pilot.real_name = "[Pilot.cached_dna.real_name]"
+                Pilot.name = "[Pilot.real_name]"
+                Pilot.adjustBruteLoss(0.5*src.damage)
+                owner.mind.transfer_to(Pilot)
+                Pilot.loc = get_turf(src)
+        ..()
+        qdel(src)
 
 /obj/item/organ/internal/brain/yinslug/attackby(obj/item/weapon/W as obj, mob/user as mob, params)
 	for(var/mob/M in src.contents)

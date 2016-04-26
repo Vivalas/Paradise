@@ -122,7 +122,7 @@
 	h_style = "Bald"
 	..(new_loc, "Diona")
 
-/mob/living/carbon/human/pilot/New(var/new_loc)
+/mob/living/carbon/human/yin/New(var/new_loc)
 	h_style = "Bald"
 	..(new_loc, "Yin")
 
