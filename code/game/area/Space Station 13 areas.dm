@@ -2334,6 +2334,7 @@ area/security/podbay
 /area/awaymission
 	name = "\improper Strange Location"
 	icon_state = "away"
+	report_alerts = 0
 
 /area/awaymission/example
 	name = "\improper Strange Station"
