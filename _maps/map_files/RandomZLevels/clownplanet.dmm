@@ -164,7 +164,7 @@
 "dh" = (/obj/structure/grille,/obj/structure/window/reinforced{dir = 4},/obj/structure/window/reinforced{dir = 8},/obj/structure/window/reinforced,/turf/simulated/floor/plating,/area/planet/clown)
 "di" = (/obj/machinery/vending/security,/turf/simulated/floor/plasteel,/area/planet/clown)
 "dj" = (/obj/structure/rack,/turf/simulated/floor/plasteel,/area/planet/clown)
-"dk" = (/obj/effect/decal/mecha_wreckage/mime{anchored = 1},/turf/unsimulated/floor/plating/snow,/area/planet/clown)
+"dk" = (/obj/item/weapon/reagent_containers/food/snacks/egg/mime{anchored = 1},/turf/unsimulated/floor/plating/snow,/area/planet/clown)
 "dl" = (/obj/effect/decal/snow/clean/edge{tag = "icon-snow_corner (NORTHWEST)"; icon_state = "snow_corner"; dir = 9},/turf/unsimulated/floor/plating/snow/concrete,/area/planet/clown)
 "dm" = (/obj/effect/decal/snow/clean/edge{tag = "icon-snow_corner (NORTH)"; icon_state = "snow_corner"; dir = 1},/turf/unsimulated/floor/plating/snow/concrete,/area/planet/clown)
 "dn" = (/obj/machinery/door/airlock/highsecurity,/turf/simulated/floor/plating{dir = 2; icon_state = "warnplate"; tag = "icon-warnplate (NORTH)"},/area/planet/clown)
