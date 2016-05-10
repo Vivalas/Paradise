@@ -29,7 +29,7 @@
 		"r_foot" = list("path" = /obj/item/organ/external/foot/right/yin)
 		)
 
-	flags = IS_WHITELISTED | NO_BREATHE | NO_SCAN | NO_BLOOD | NO_PAIN | NO_DNA | NO_POISON | ALL_RPARTS
+	flags = NO_BREATHE | NO_SCAN | NO_BLOOD | NO_PAIN | NO_DNA | NO_POISON | ALL_RPARTS
 	bodyflags = HAS_SKIN_COLOR
 	virus_immune = 1
 	can_revive_by_healing = 1

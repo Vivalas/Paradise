@@ -47,7 +47,7 @@
 		name = "[name] ([rand(1, 1000)])"
 		real_name = name
 
-	add_language("Rootspeak")
+	add_language("Yin Tactical Uplink")
 
 /mob/living/simple_animal/yin/attack_hand(mob/living/carbon/human/M as mob)
 	if(M.a_intent == I_HELP)

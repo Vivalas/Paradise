@@ -3,7 +3,26 @@
 	company = "Yin"
 	desc = "Part of a Yin humanoid shell, made of sleek polymers and pneumatic cable."
 	icon = 'icons/mob/human_races/r_pilot.dmi'
-	unavailable_at_chargen = 1
+	//unavailable_at_chargen = 1
+	has_subtypes = 1
+
+/datum/robolimb/yin/plasma
+	company = "Yin plasma"
+	desc = "Part of a Yin humanoid shell, made of pneumatic cable with a decorative plasma coating."
+	icon = 'icons/mob/human_races/cyberlimbs/yin/plasma.dmi'
+	has_subtypes = null
+
+/datum/robolimb/yin/gold
+	company = "Yin gold"
+	desc = "Part of a Yin humanoid shell, made of pneumatic cable with a decorative gold plating."
+	icon = 'icons/mob/human_races/cyberlimbs/yin/gold.dmi'
+	has_subtypes = null
+
+/datum/robolimb/yin/diamond
+	company = "Yin diamond"
+	desc = "Part of a Yin humanoid shell, made of pneumatic cable with decorative diamond plating."
+	icon = 'icons/mob/human_races/cyberlimbs/yin/diamond.dmi'
+	has_subtypes = null
 
 /obj/item/organ/external/head/yin
 	can_intake_reagents = 0
@@ -102,8 +121,8 @@
 /obj/item/organ/internal/reactor
 	name = "mini reactor"
 	desc = "A compact nuclear reactor designed to fit inside and power a synthetic body"
-	icon = 'icons/obj/grenade.dmi'
-	icon_state = "rocket_fire"
+	icon = 'icons/mob/yin_pilot.dmi'
+	icon_state = "reactor"
 	organ_tag = "heart"
 	parent_organ = "chest"
 	slot = "heart"

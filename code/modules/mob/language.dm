@@ -252,10 +252,20 @@
 	speech_verb = "says"
 	ask_verb = "asks"
 	exclaim_verb = "exclaims"
-	colour = "trinary"
+	colour = "warning"
 	key = "yi"
 	flags = RESTRICTED | WHITELISTED
 	syllables = list("bin","cin","chin","din","fin","ghin","hin","jin","kin","lin","min","nin","pin","qin","rin","sin","shin","tin","vin","xin","yin","zin")
+
+/datum/language/yin_tact
+	name = "Yin Tactical Uplink"
+	desc = "A bluespace network used to coordinate Yin military action."
+	speech_verb = "says"
+	ask_verb = "asks"
+	exclaim_verb = "exclaims"
+	colour = "warning"
+	key = "yu"
+	flags = RESTRICTED | HIVEMIND
 
 /datum/language/trinary/get_random_name()
 	var/new_name
