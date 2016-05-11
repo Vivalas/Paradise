@@ -184,7 +184,7 @@
 		cur_target = get_new_target() //get new target
 
 	if(cur_target) //if it's found, proceed
-//		world << "[cur_target]"
+//		to_chat(world, "[cur_target]")
 		if(!isPopping())
 			if(isDown())
 				popUp()
@@ -336,7 +336,7 @@
 		if (src.health <= 0)
 			src.die()
 	else
-		M << "<span class='danger'>That object is useless to you.</span>"
+		to_chat(M, "<span class='danger'>That object is useless to you.</span>")
 	return
 
 
@@ -352,7 +352,7 @@
 		if (src.health <= 0)
 			src.die()
 	else
-		M << "\green That object is useless to you."
+		to_chat(M, "\green That object is useless to you.")
 	return
 
 
@@ -362,7 +362,7 @@
 		return 1
 	if (src.locked)
 		if (!istype(usr, /mob/living/silicon))
-			usr << "Control panel is locked!"
+			to_chat(usr, "Control panel is locked!")
 			return
 	if (href_list["toggleOn"])
 		src.enabled = !src.enabled
@@ -402,6 +402,8 @@
 	var/scan_range = 9 //You will never see them coming
 	var/health = 200 //Because it lacks a cover, and is mostly to keep people from touching the syndie shuttle.
 	var/bullet_type = /obj/item/projectile/bullet
+	var/firing_sound = 'sound/weapons/Gunshot3.ogg'
+	var/base_icon = "syndieturret"
 	icon = 'icons/obj/turrets.dmi'
 	icon_state = "syndieturret0"
 
@@ -425,7 +427,7 @@
 /obj/machinery/gun_turret/update_icon()
 	if(state > 2 || state < 0) //someone fucked up the vars so fix them
 		take_damage(0)
-	icon_state = "syndieturret" + "[state]"
+	icon_state = "[base_icon]" + "[state]"
 	return
 
 
@@ -547,7 +549,7 @@
 		return
 	if (targloc == curloc)
 		return
-	playsound(get_turf(src), 'sound/weapons/Gunshot3.ogg', 60, 1)
+	playsound(get_turf(src), firing_sound, 60, 1)
 	var/obj/item/projectile/A = new bullet_type(curloc)
 	A.current = curloc
 	A.yo = targloc.y - curloc.y

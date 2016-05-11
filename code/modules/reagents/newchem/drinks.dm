@@ -27,7 +27,7 @@
 		if(prob(50))
 			M.say("[sonic_message]")
 		else
-			M << "<span class='notice'>[sonic_message ]</span>"
+			to_chat(M, "<span class='notice'>[sonic_message ]</span>")
 	..()
 	return
 
@@ -66,6 +66,56 @@
 	result_amount = 5
 	mix_sound = 'sound/goonstation/misc/drinkfizz.ogg'
 
+
+/datum/reagent/ethanol/dragons_breath
+	name = "Dragon's Breath"
+	id = "dragonsbreath"
+	description = "Possessing this stuff probably breaks the Geneva convention."
+	reagent_state = LIQUID
+	color = "#DC0000"
+	alcohol_perc = 1
+
+/datum/reagent/ethanol/dragons_breath/reaction_mob(var/mob/living/M, var/method=TOUCH, var/volume)
+	if(method == INGEST && prob(20))
+		if(M.on_fire)
+			M.adjust_fire_stacks(3)
+
+/datum/reagent/ethanol/dragons_breath/on_mob_life(var/mob/living/M as mob)
+	if(!M) M = holder.my_atom
+	if(M.reagents.has_reagent("milk"))
+		to_chat(M, "<span class='notice'>The milk stops the burning. Ahhh.</span>")
+		M.reagents.del_reagent("milk")
+		M.reagents.del_reagent("dragonsbreath")
+		return
+	if(prob(8))
+		to_chat(M, "<span class='userdanger'>Oh god! Oh GODD!!</span>")
+	if(prob(50))
+		to_chat(M, "<span class='danger'>Your throat burns terribly!</span>")
+		M.emote(pick("scream","cry","choke","gasp"))
+		M.Stun(1)
+	if(prob(8))
+		to_chat(M, "<span class='danger'>Why!? WHY!?</span>")
+	if(prob(8))
+		to_chat(M, "<span class='danger'>ARGHHHH!</span>")
+	if(prob(2 * volume))
+		to_chat(M, "<span class='userdanger'>OH GOD OH GOD PLEASE NO!!</b></span>")
+		if(M.on_fire)
+			M.adjust_fire_stacks(5)
+		if(prob(50))
+			to_chat(M, "<span class='userdanger'>IT BURNS!!!!</span>")
+			M.visible_message("<span class='danger'>[M] is consumed in flames!</span>")
+			M.dust()
+			return
+	..()
+
+/datum/chemical_reaction/dragons_breath
+	name = "Dragon's Breath"
+	id = "dragonsbreath"
+	result = "dragonsbreath"
+	required_reagents = list("whiskey" = 1, "phlogiston" = 1, "pyrosium" = 1, "fuel" = 1, "ghostchilijuice"= 1)
+	result_amount = 1
+	mix_message = "A tiny mushroom cloud erupts from the container. That's not worrying at all!"
+	mix_sound = 'sound/effects/meteorimpact.ogg'
 
 // ROBOT ALCOHOL PAST THIS POINT
 // WOOO!
@@ -130,7 +180,7 @@ datum/reagent/ethanol/synthanol/reaction_mob(var/mob/M, var/method=TOUCH, var/vo
 	if(M.isSynthetic())
 		return
 	if(method == INGEST)
-		M << pick("<span class = 'danger'>That was awful!</span>", "<span class = 'danger'>Yuck!</span>")
+		to_chat(M, pick("<span class = 'danger'>That was awful!</span>", "<span class = 'danger'>Yuck!</span>"))
 
 /datum/reagent/ethanol/synthanol/robottears
 	name = "Robot Tears"

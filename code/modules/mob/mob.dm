@@ -46,7 +46,7 @@
 	t+= "\blue Plasma : [environment.toxins] \n"
 	t+= "\blue Carbon Dioxide: [environment.carbon_dioxide] \n"
 	for(var/datum/gas/trace_gas in environment.trace_gases)
-		usr << "\blue [trace_gas.type]: [trace_gas.moles] \n"
+		to_chat(usr, "\blue [trace_gas.type]: [trace_gas.moles] \n")
 
 	usr.show_message(t, 1)
 
@@ -71,9 +71,9 @@
 					return
 	// Added voice muffling for Issue 41.
 	if(stat == UNCONSCIOUS || (sleeping > 0 && stat != 2))
-		src << "<I>... You can almost hear someone talking ...</I>"
+		to_chat(src, "<I>... You can almost hear someone talking ...</I>")
 	else
-		src << msg
+		to_chat(src, msg)
 	return
 
 // Show a message to all mobs in sight of this one
@@ -171,12 +171,13 @@
 		if (istype(W, /obj/item/clothing))
 			var/obj/item/clothing/C = W
 			if(C.rig_restrict_helmet)
-				src << "\red You must fasten the helmet to a hardsuit first. (Target the head and use on a hardsuit)" // Stop eva helms equipping.
+				to_chat(src, "\red You must fasten the helmet to a hardsuit first. (Target the head and use on a hardsuit)")// Stop eva helms equipping.
+
 			else
 				equip_to_slot_if_possible(C, slot)
 		else
 			equip_to_slot_if_possible(W, slot)
-	else
+	else if(!restrained())
 		W = get_item_by_slot(slot)
 		if(W)
 			W.attack_hand(src)
@@ -206,7 +207,8 @@
 			qdel(W)
 		else
 			if(!disable_warning)
-				src << "\red You are unable to equip that." //Only print if del_on_fail is false
+				to_chat(src, "\red You are unable to equip that.")//Only print if del_on_fail is false
+
 		return 0
 
 	equip_to_slot(W, slot, redraw_mob) //This proc should not ever fail.
@@ -348,7 +350,7 @@ var/list/slot_equipment_priority = list( \
 			if(slot_belt)
 				if(!H.w_uniform)
 					if(!disable_warning)
-						H << "\red You need a jumpsuit before you can attach this [name]."
+						to_chat(H, "\red You need a jumpsuit before you can attach this [name].")
 					return 0
 				if( !(slot_flags & SLOT_BELT) )
 					return 0
@@ -408,7 +410,7 @@ var/list/slot_equipment_priority = list( \
 			if(slot_wear_id)
 				if(!H.w_uniform)
 					if(!disable_warning)
-						H << "\red You need a jumpsuit before you can attach this [name]."
+						to_chat(H, "\red You need a jumpsuit before you can attach this [name].")
 					return 0
 				if( !(slot_flags & SLOT_ID) )
 					return 0
@@ -423,7 +425,7 @@ var/list/slot_equipment_priority = list( \
 					return 0
 				if(!H.w_uniform)
 					if(!disable_warning)
-						H << "\red You need a jumpsuit before you can attach this [name]."
+						to_chat(H, "\red You need a jumpsuit before you can attach this [name].")
 					return 0
 				if(slot_flags & SLOT_DENYPOCKET)
 					return
@@ -434,7 +436,7 @@ var/list/slot_equipment_priority = list( \
 					return 0
 				if(!H.w_uniform)
 					if(!disable_warning)
-						H << "\red You need a jumpsuit before you can attach this [name]."
+						to_chat(H, "\red You need a jumpsuit before you can attach this [name].")
 					return 0
 				if(slot_flags & SLOT_DENYPOCKET)
 					return 0
@@ -444,15 +446,15 @@ var/list/slot_equipment_priority = list( \
 			if(slot_s_store)
 				if(!H.wear_suit)
 					if(!disable_warning)
-						H << "\red You need a suit before you can attach this [name]."
+						to_chat(H, "\red You need a suit before you can attach this [name].")
 					return 0
 				if(!H.wear_suit.allowed)
 					if(!disable_warning)
-						usr << "You somehow have a suit with no defined allowed items for suit storage, stop that."
+						to_chat(usr, "You somehow have a suit with no defined allowed items for suit storage, stop that.")
 					return 0
 				if(src.w_class > 4)
 					if(!disable_warning)
-						usr << "The [name] is too big to attach."
+						to_chat(usr, "The [name] is too big to attach.")
 					return 0
 				if( istype(src, /obj/item/device/pda) || istype(src, /obj/item/weapon/pen) || is_type_in_list(src, H.wear_suit.allowed) )
 					if(H.s_store)
@@ -519,7 +521,7 @@ var/list/slot_equipment_priority = list( \
 	set category = "IC"
 
 	if((is_blind(src) || usr.stat) && !isobserver(src))
-		src << "<span class='notice'>Something is there but you can't see it.</span>"
+		to_chat(src, "<span class='notice'>Something is there but you can't see it.</span>")
 		return 1
 
 	face_atom(A)
@@ -625,7 +627,7 @@ var/list/slot_equipment_priority = list( \
 	if(mind)
 		mind.show_memory(src)
 	else
-		src << "The game appears to have misplaced your mind datum, so we can't show you your notes."
+		to_chat(src, "The game appears to have misplaced your mind datum, so we can't show you your notes.")
 
 /mob/verb/add_memory(msg as message)
 	set name = "Add Note"
@@ -637,7 +639,7 @@ var/list/slot_equipment_priority = list( \
 	if(mind)
 		mind.store_memory(msg)
 	else
-		src << "The game appears to have misplaced your mind datum, so we can't show you your notes."
+		to_chat(src, "The game appears to have misplaced your mind datum, so we can't show you your notes.")
 
 /mob/proc/store_memory(msg as message, popup, sane = 1)
 	msg = copytext(msg, 1, MAX_MESSAGE_LEN)
@@ -656,7 +658,7 @@ var/list/slot_equipment_priority = list( \
 /mob/proc/update_flavor_text()
 	set src in usr
 	if(usr != src)
-		usr << "No."
+		to_chat(usr, "No.")
 	var/msg = input(usr,"Set the flavor text in your 'examine' verb. Can also be used for OOC notes about your character.","Flavor Text",html_decode(flavor_text)) as message|null
 
 	if(msg != null)
@@ -684,16 +686,16 @@ var/list/slot_equipment_priority = list( \
 	set category = "OOC"
 
 	if (!abandon_allowed)
-		usr << "<span class='warning'>Respawning is disabled.</span>"
+		to_chat(usr, "<span class='warning'>Respawning is disabled.</span>")
 		return
 
 	if (stat != DEAD || !ticker)
-		usr << "<span class='boldnotice'>You must be dead to use this!</span>"
+		to_chat(usr, "<span class='boldnotice'>You must be dead to use this!</span>")
 		return
 
 	log_game("[key_name(usr)] has respawned.")
 
-	usr << "<span class='boldnotice'>Make sure to play a different character, and please roleplay correctly!</span>"
+	to_chat(usr, "<span class='boldnotice'>Make sure to play a different character, and please roleplay correctly!</span>")
 
 	if(!client)
 		log_game("[key_name(usr)] respawn failed due to disconnect.")
@@ -722,7 +724,7 @@ var/list/slot_equipment_priority = list( \
 	if(client.holder && (client.holder.rights & R_ADMIN))
 		is_admin = 1
 	else if(stat != DEAD || istype(src, /mob/new_player))
-		usr << "\blue You must be observing to use this!"
+		to_chat(usr, "\blue You must be observing to use this!")
 		return
 
 	if(is_admin && stat == DEAD)
@@ -937,7 +939,7 @@ var/list/slot_equipment_priority = list( \
 /mob/proc/see(message)
 	if(!is_active())
 		return 0
-	src << message
+	to_chat(src, message)
 	return 1
 
 /mob/proc/is_muzzled()
@@ -993,30 +995,9 @@ var/list/slot_equipment_priority = list( \
 
 // this function displays the shuttles ETA in the status panel if the shuttle has been called
 /mob/proc/show_stat_emergency_shuttle_eta()
-	var/obj/docking_port/mobile/emergency/E = shuttle_master.emergency
-
-	if(E.mode >= SHUTTLE_RECALL)
-		var/message = ""
-
-		var/timeleft = E.timeLeft()
-		message = "[add_zero(num2text((timeleft / 60) % 60),2)]:[add_zero(num2text(timeleft % 60), 2)]"
-
-		switch(E.mode)
-			if(SHUTTLE_RECALL, SHUTTLE_ESCAPE)
-				message = "ETR-[message]"
-			if(SHUTTLE_CALL)
-				message = "ETA-[message]"
-			if(SHUTTLE_DOCKED)
-				if(timeleft < 5)
-					message = "Departing..."
-				else
-					message = "ETD-[message]"
-			if(SHUTTLE_STRANDED)
-				message = "ETA-ERR"
-			if(SHUTTLE_ENDGAME)
-				return
-
-		stat(null, message)
+	var/ETA = shuttle_master.emergency.getModeStr()
+	if(ETA)
+		stat(null, "[ETA] [shuttle_master.emergency.getTimerStr()]")
 
 /mob/proc/add_stings_to_statpanel(var/list/stings)
 	for(var/obj/effect/proc_holder/changeling/S in stings)
@@ -1116,6 +1097,11 @@ var/list/slot_equipment_priority = list( \
 /mob/proc/IsAdvancedToolUser()//This might need a rename but it should replace the can this mob use things check
 	return 0
 
+/mob/proc/swap_hand()
+	return
+
+/mob/proc/activate_hand(selhand)
+	return
 
 /mob/proc/Jitter(amount)
 	jitteriness = max(jitteriness, amount, 0)
@@ -1188,9 +1174,6 @@ var/list/slot_equipment_priority = list( \
 /mob/proc/get_species()
 	return ""
 
-/mob/proc/flash_weak_pain()
-	flick("weak_pain",pain)
-
 /mob/proc/get_visible_implants(var/class = 0)
 	var/list/visible_implants = list()
 	for(var/obj/item/O in embedded)
@@ -1209,11 +1192,11 @@ mob/proc/yank_out_object()
 	usr.changeNext_move(CLICK_CD_RESIST)
 
 	if(usr.stat == 1)
-		usr << "You are unconcious and cannot do that!"
+		to_chat(usr, "You are unconcious and cannot do that!")
 		return
 
 	if(usr.restrained())
-		usr << "You are restrained and cannot do that!"
+		to_chat(usr, "You are restrained and cannot do that!")
 		return
 
 	var/mob/S = src
@@ -1227,17 +1210,17 @@ mob/proc/yank_out_object()
 	valid_objects = get_visible_implants(0)
 	if(!valid_objects.len)
 		if(self)
-			src << "You have nothing stuck in your body that is large enough to remove."
+			to_chat(src, "You have nothing stuck in your body that is large enough to remove.")
 		else
-			U << "[src] has nothing stuck in their wounds that is large enough to remove."
+			to_chat(U, "[src] has nothing stuck in their wounds that is large enough to remove.")
 		return
 
 	var/obj/item/weapon/selection = input("What do you want to yank out?", "Embedded objects") in valid_objects
 
 	if(self)
-		src << "<span class='warning'>You attempt to get a good grip on [selection] in your body.</span>"
+		to_chat(src, "<span class='warning'>You attempt to get a good grip on [selection] in your body.</span>")
 	else
-		U << "<span class='warning'>You attempt to get a good grip on [selection] in [S]'s body.</span>"
+		to_chat(U, "<span class='warning'>You attempt to get a good grip on [selection] in [S]'s body.</span>")
 
 	if(!do_after(U, 80, target = S))
 		return
@@ -1291,12 +1274,12 @@ mob/proc/yank_out_object()
 	set name = "Respawn as NPC"
 	set category = "Ghost"
 
-	if(jobban_isbanned(usr, "NPC"))
-		usr << "<span class='warning'>You are banned from playing as NPC's.</span>"
+	if(jobban_isbanned(usr, ROLE_SENTIENT))
+		to_chat(usr, "<span class='warning'>You are banned from playing as sentient animals.</span>")
 		return
 
 	if(!ticker || ticker.current_state < 3)
-		src << "<span class='warning'>You can't respawn as an NPC before the game starts!</span>"
+		to_chat(src, "<span class='warning'>You can't respawn as an NPC before the game starts!</span>")
 		return
 
 	if((usr in respawnable_list) && (stat==2 || istype(usr,/mob/dead/observer)))
@@ -1320,7 +1303,7 @@ mob/proc/yank_out_object()
 					spawn(5)
 						respawnable_list += usr
 	else
-		usr << "You are not dead or you have given up your right to be respawned!"
+		to_chat(usr, "You are not dead or you have given up your right to be respawned!")
 		return
 
 
@@ -1329,7 +1312,7 @@ mob/proc/yank_out_object()
 	if(client.time_died_as_mouse && timedifference <= mouse_respawn_time * 600)
 		var/timedifference_text
 		timedifference_text = time2text(mouse_respawn_time * 600 - timedifference,"mm:ss")
-		src << "<span class='warning'>You may only spawn again as a mouse more than [mouse_respawn_time] minutes after your death. You have [timedifference_text] left.</span>"
+		to_chat(src, "<span class='warning'>You may only spawn again as a mouse more than [mouse_respawn_time] minutes after your death. You have [timedifference_text] left.</span>")
 		return
 
 	//find a viable mouse candidate
@@ -1343,11 +1326,11 @@ mob/proc/yank_out_object()
 		vent_found = pick(found_vents)
 		host = new /mob/living/simple_animal/mouse(vent_found.loc)
 	else
-		src << "<span class='warning'>Unable to find any unwelded vents to spawn mice at.</span>"
+		to_chat(src, "<span class='warning'>Unable to find any unwelded vents to spawn mice at.</span>")
 
 	if(host)
 		host.ckey = src.ckey
-		host << "<span class='info'>You are now a mouse. Try to avoid interaction with players, and do not give hints away that you are more than a simple rodent.</span>"
+		to_chat(host, "<span class='info'>You are now a mouse. Try to avoid interaction with players, and do not give hints away that you are more than a simple rodent.</span>")
 
 /mob/proc/assess_threat() //For sec bot threat assessment
 	return
@@ -1366,16 +1349,18 @@ mob/proc/yank_out_object()
 		ghost.notify_cloning(message, sound, source)
 		return ghost
 
-/mob/proc/fakevomit(green=0) //for aesthetic vomits that need to be instant and do not stun. -Fox
+/mob/proc/fakevomit(green = 0, no_text = 0) //for aesthetic vomits that need to be instant and do not stun. -Fox
 	if(stat==DEAD)
 		return
 	var/turf/location = loc
 	if (istype(location, /turf/simulated))
 		if(green)
-			src.visible_message("<span class='warning'>[src] vomits up some green goo!</span>","<span class='warning'>You vomit up some green goo!</span>")
+			if(!no_text)
+				visible_message("<span class='warning'>[src] vomits up some green goo!</span>","<span class='warning'>You vomit up some green goo!</span>")
 			new /obj/effect/decal/cleanable/vomit/green(location)
 		else
-			src.visible_message("<span class='warning'>[src] pukes all over \himself!</span>","<span class='warning'>You puke all over yourself!</span>")
+			if(!no_text)
+				visible_message("<span class='warning'>[src] pukes all over \himself!</span>","<span class='warning'>You puke all over yourself!</span>")
 			location.add_vomit_floor(src, 1)
 		playsound(location, 'sound/effects/splat.ogg', 50, 1)
 
@@ -1447,3 +1432,9 @@ mob/proc/yank_out_object()
 
 /mob/proc/get_access()
 	return list() //must return list or IGNORE_ACCESS
+
+/mob/proc/faction_check(mob/target)
+	for(var/F in faction)
+		if(F in target.faction)
+			return 1
+	return 0

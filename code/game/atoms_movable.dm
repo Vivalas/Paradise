@@ -1,5 +1,6 @@
 /atom/movable
 	layer = 3
+	appearance_flags = TILE_BOUND
 	var/last_move = null
 	var/anchored = 0
 	// var/elevation = 2    - not used anywhere
@@ -109,10 +110,12 @@
 
 /atom/movable/proc/forceMove(atom/destination)
 	var/turf/old_loc = loc
-	if(old_loc)
-		old_loc.Exited(src)
-
 	loc = destination
+
+	if(old_loc)
+		old_loc.Exited(src, destination)
+		for(var/atom/movable/AM in old_loc)
+			AM.Uncrossed(src)
 
 	if(destination)
 		destination.Entered(src)

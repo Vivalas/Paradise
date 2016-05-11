@@ -74,14 +74,14 @@
 	if(istype(O,/obj/item/weapon/paper))
 		var/obj/item/weapon/paper/paperaffected = O
 		paperaffected.clearpaper()
-		usr << "The solution melts away the ink on the paper."
+		to_chat(usr, "The solution melts away the ink on the paper.")
 	if(istype(O,/obj/item/weapon/book))
 		if(volume >= 5)
 			var/obj/item/weapon/book/affectedbook = O
 			affectedbook.dat = null
-			usr << "The solution melts away the ink on the book."
+			to_chat(usr, "The solution melts away the ink on the book.")
 		else
-			usr << "It wasn't enough..."
+			to_chat(usr, "It wasn't enough...")
 	return
 
 /datum/reagent/ethanol/reaction_mob(var/mob/living/M, var/method=TOUCH, var/volume)//Splashing people with ethanol isn't quite as good as fuel.
@@ -151,10 +151,8 @@
 	..()
 	return
 
-/datum/reagent/ethanol/absinthe/overdose_process(mob/living/M)
+/datum/reagent/ethanol/absinthe/overdose_process(mob/living/M, severity)
 	M.adjustToxLoss(1)
-	..()
-	return
 
 /datum/reagent/ethanol/rum
 	name = "Rum"
@@ -169,10 +167,8 @@
 	M.dizziness +=5
 	return
 
-/datum/reagent/ethanol/rum/overdose_process(mob/living/M)
+/datum/reagent/ethanol/rum/overdose_process(mob/living/M, severity)
 	M.adjustToxLoss(1)
-	..()
-	return
 
 /datum/reagent/ethanol/mojito
 	name = "Mojito"

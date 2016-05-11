@@ -138,7 +138,7 @@
 				@param replacestring: 	the string to replace the substring with
 
 	*/
-	interpreter.SetProc("replace",		/proc/replacetext)
+	interpreter.SetProc("replace",		/proc/n_replacetext)
 
 	/*
 		-> Locates an element/substring inside of a list or string
@@ -180,47 +180,46 @@
 	interpreter.SetProc("shuffle",		/proc/shuffle)
 	interpreter.SetProc("uniquevector",	/proc/uniquelist)
 
-	interpreter.SetProc("text2vector",	/proc/text2list)
-	interpreter.SetProc("text2vectorEx",/proc/text2listEx)
-	interpreter.SetProc("vector2text",	/proc/list2text)
+	interpreter.SetProc("text2vector",	/proc/n_splittext)
+	interpreter.SetProc("vector2text",	/proc/n_jointext)
 
 	// Donkie~
 	// Strings
 	interpreter.SetProc("lower",		/proc/n_lower)
 	interpreter.SetProc("upper",		/proc/n_upper)
 	interpreter.SetProc("explode",		/proc/string_explode)
-	interpreter.SetProc("implode",		/proc/list2text)
+	interpreter.SetProc("implode",		/proc/n_jointext)
 	interpreter.SetProc("repeat",		/proc/n_repeat)
 	interpreter.SetProc("reverse",		/proc/reverse_text)
 	interpreter.SetProc("tonum",		/proc/n_str2num)
 	interpreter.SetProc("capitalize",	/proc/capitalize)
-	interpreter.SetProc("replacetextEx",/proc/replacetextEx)
+	interpreter.SetProc("replacetextEx",/proc/n_replacetextEx)
 
 	// Numbers
 	interpreter.SetProc("tostring",		/proc/n_num2str)
 	interpreter.SetProc("sqrt",			/proc/n_sqrt)
 	interpreter.SetProc("abs",			/proc/n_abs)
-	interpreter.SetProc("floor",		/proc/Floor)
-	interpreter.SetProc("ceil",			/proc/Ceiling)
+	interpreter.SetProc("floor",		/proc/n_floor)
+	interpreter.SetProc("ceil",			/proc/n_ceiling)
 	interpreter.SetProc("round",		/proc/n_round)
 	interpreter.SetProc("clamp",		/proc/n_clamp)
-	interpreter.SetProc("inrange",		/proc/IsInRange)
+	interpreter.SetProc("inrange",		/proc/n_isInRange)
 	interpreter.SetProc("rand",			/proc/rand_chance)
 	interpreter.SetProc("arctan",		/proc/Atan2)
-	interpreter.SetProc("lcm",			/proc/Lcm)
+	interpreter.SetProc("lcm",			/proc/n_lcm)
 	interpreter.SetProc("gcd",			/proc/Gcd)
 	interpreter.SetProc("mean",			/proc/Mean)
-	interpreter.SetProc("root",			/proc/Root)
+	interpreter.SetProc("root",			/proc/n_root)
 	interpreter.SetProc("sin",			/proc/n_sin)
 	interpreter.SetProc("cos",			/proc/n_cos)
 	interpreter.SetProc("arcsin",		/proc/n_asin)
 	interpreter.SetProc("arccos",		/proc/n_acos)
-	interpreter.SetProc("tan",			/proc/Tan)
-	interpreter.SetProc("csc",			/proc/Csc)
-	interpreter.SetProc("cot",			/proc/Cot)
-	interpreter.SetProc("sec",			/proc/Sec)
-	interpreter.SetProc("todegrees",	/proc/ToDegrees)
-	interpreter.SetProc("toradians",	/proc/ToRadians)
+	interpreter.SetProc("tan",			/proc/n_tan)
+	interpreter.SetProc("csc",			/proc/n_csc)
+	interpreter.SetProc("cot",			/proc/n_cot)
+	interpreter.SetProc("sec",			/proc/n_sec)
+	interpreter.SetProc("todegrees",	/proc/n_toDegrees)
+	interpreter.SetProc("toradians",	/proc/n_toRadians)
 	interpreter.SetProc("lerp",			/proc/Lerp)
 	interpreter.SetProc("max",			/proc/n_max)
 	interpreter.SetProc("min",			/proc/n_min)

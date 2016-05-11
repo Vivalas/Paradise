@@ -30,6 +30,7 @@
 	move_to_delay = 9
 
 	var/is_electronic = 0
+	gold_core_spawnable = CHEM_MOB_SPAWN_HOSTILE
 
 /mob/living/simple_animal/hostile/mimic/FindTarget()
 	. = ..()
@@ -98,7 +99,7 @@
 		visible_message("<b>[src]</b> starts to move!")
 		attempt_open = 1
 
-/mob/living/simple_animal/hostile/mimic/crate/adjustBruteLoss(var/damage)
+/mob/living/simple_animal/hostile/mimic/crate/adjustHealth(damage)
 	trigger()
 	..(damage)
 
@@ -139,6 +140,7 @@ var/global/list/protected_objects = list(/obj/structure/table, /obj/structure/ca
 	var/mob/living/creator = null // the creator
 	var/destroy_objects = 0
 	var/knockdown_people = 0
+	gold_core_spawnable = CHEM_MOB_SPAWN_INVALID
 
 /mob/living/simple_animal/hostile/mimic/copy/New(loc, var/obj/copy, var/mob/living/creator, var/destroy_original = 0)
 	..(loc)

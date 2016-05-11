@@ -25,12 +25,18 @@
 	//Emote Cooldown System (it's so simple!)
 	// proc/handle_emote_CD() located in [code\modules\mob\emote.dm]
 	var/on_CD = 0
+	act = lowertext(act)
 	switch(act)
 		//Cooldown-inducing emotes
 		if("ping", "pings", "buzz", "buzzes", "beep", "beeps", "yes", "no")
 			if (species.name == "Machine")		//Only Machines can beep, ping, and buzz
 				on_CD = handle_emote_CD()			//proc located in code\modules\mob\emote.dm
 			else								//Everyone else fails, skip the emote attempt
+				return
+		if("drone","drones","hum","hums","rumble","rumbles")
+			if (species.name == "Drask")		//Only Drask can make whale noises
+				on_CD = handle_emote_CD()			//proc located in code\modules\mob\emote.dm
+			else
 				return
 		if("squish", "squishes")
 			var/found_slime_bodypart = 0
@@ -112,6 +118,23 @@
 			else
 				message = "<B>[src]</B> beeps."
 			playsound(src.loc, 'sound/machines/twobeep.ogg', 50, 0)
+			m_type = 2
+
+		if("drone", "drones", "hum", "hums", "rumble", "rumbles")
+			var/M = null
+			if(param)
+				for (var/mob/A in view(null, null))
+					if (param == A.name)
+						M = A
+						break
+			if(!M)
+				param = null
+
+			if (param)
+				message = "<B>[src]</B> drones at [param]."
+			else
+				message = "<B>[src]</B> rumbles."
+			playsound(src.loc, 'sound/voice/DraskTalk.ogg', 50, 0)
 			m_type = 2
 
 		if("squish", "squishes")
@@ -336,7 +359,7 @@
 			message = "<B>[src]</B> faints."
 			if(src.sleeping)
 				return //Can't faint while asleep
-			src.sleeping += 10 //Short-short nap
+			src.sleeping += 1
 			m_type = 1
 
 		if ("cough", "coughs")
@@ -753,7 +776,7 @@
 					right_hand_good = 1
 
 				if (!left_hand_good && !right_hand_good)
-					usr << "You need at least one hand in good working order to snap your fingers."
+					to_chat(usr, "You need at least one hand in good working order to snap your fingers.")
 					return
 
 				message = "<b>[src]</b> snaps \his fingers."
@@ -769,8 +792,8 @@
 				return
 //			playsound(src.loc, 'sound/effects/fart.ogg', 50, 1, -3) //Admins still vote no to fun
 			if(locate(/obj/item/weapon/storage/bible) in get_turf(src))
-				viewers(src) << "<span class='warning'><b>[src] farts on the Bible!</b></span>"
-				viewers(src) << "<span class='notice'><b>A mysterious force smites [src]!</b></span>"
+				to_chat(viewers(src), "<span class='warning'><b>[src] farts on the Bible!</b></span>")
+				to_chat(viewers(src), "<span class='notice'><b>A mysterious force smites [src]!</b></span>")
 				var/datum/effect/system/spark_spread/s = new /datum/effect/system/spark_spread
 				s.set_up(3, 1, src)
 				s.start()
@@ -791,14 +814,9 @@
 						continue
 					// Now, we don't have this:
 					//new /obj/effects/fart_cloud(T,L)
-					// But:
-					// <[REDACTED]> so, what it does is...imagine a 3x3 grid with the person in the center. When someone uses the emote *fart (it's not a spell style ability and has no cooldown), then anyone in the 8 tiles AROUND the person who uses it
-					// <[REDACTED]> gets between 1 and 10 units of jenkem added to them...we obviously don't have Jenkem, but Space Drugs do literally the same exact thing as Jenkem
-					// <[REDACTED]> the user, of course, isn't impacted because it's not an actual smoke cloud
-					// So, let's give 'em space drugs.
 					if (M == src)
 						continue
-					M.reagents.add_reagent("space_drugs",rand(1,10))
+					M.reagents.add_reagent("jenkem", 1)
 
 		if ("help")
 			var/emotelist = "aflap(s), airguitar, blink(s), blink(s)_r, blush(es), bow(s)-(none)/mob, burp(s), choke(s), chuckle(s), clap(s), collapse(s), cough(s),cry, cries, custom, dap(s)(none)/mob," \
@@ -810,10 +828,10 @@
 				emotelist += "\nMachine specific emotes :- beep(s)-(none)/mob, buzz(es)-none/mob, no-(none)/mob, ping(s)-(none)/mob, yes-(none)/mob"
 			else if(species.name == "Slime People")
 				emotelist += "\nSlime people specific emotes :- squish(es)-(none)/mob"
-			src << emotelist
+			to_chat(src, emotelist)
 
 		else
-			src << "\blue Unusable emote '[act]'. Say *help for a list."
+			to_chat(src, "\blue Unusable emote '[act]'. Say *help for a list.")
 
 
 
