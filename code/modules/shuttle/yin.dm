@@ -106,6 +106,7 @@
 	options["Unathi"] = "unathi"
 	options["Skrell"] ="skrell"
 	options["Vulpkanin"] ="vulpkanin"
+	options["Machine"] = "machine"
 
 	var/choice = input(M,"Which species do you wish the mask to mimic?","Select Species") in options
 
