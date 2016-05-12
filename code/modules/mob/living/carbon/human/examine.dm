@@ -54,16 +54,20 @@
 
 	msg += "<EM>[name]</EM>"
 
-	var/list/nospecies = list("Abductor", "Shadowling", "Neara", "Monkey", "Stok", "Farwa", "Wolpin") //species that won't show their race no matter what
+	var/list/nospecies = list("Abductor", "Shadowling", "Neara", "Yin", "Monkey", "Stok", "Farwa", "Wolpin") //species that won't show their race no matter what
 
-	if (skipjumpsuit && skipface || (species.name in nospecies)) //either obscured or on the nospecies list
-		msg += "!\n"	//omit the species when examining
-	else if (species.name == "Slime People") //snowflakey because Slime People are defined as a plural
+	var/displayed_species = get_species()
+	if(wear_mask && istype(wear_mask, /obj/item/clothing/mask/gas/voice/yin))
+		var/obj/item/clothing/mask/gas/voice/yin/Y = wear_mask
+		displayed_species = Y.species_disguise
+	if (skipjumpsuit && skipface || (displayed_species in nospecies)) //either obscured or on the nospecies list
+		msg += "!\n"    //omit the species when examining
+	else if (displayed_species == "Slime People") //snowflakey because Slime People are defined as a plural
 		msg += ", a slime person!\n"
-	else if (species.name == "Unathi") //DAMN YOU, VOWELS
+	else if (displayed_species == "Unathi") //DAMN YOU, VOWELS
 		msg += ", a unathi!\n"
 	else
-		msg += ", \a [lowertext(species.name)]!\n"
+		msg += ", \a [lowertext(displayed_species)]!\n"
 
 	//uniform
 	if(w_uniform && !skipjumpsuit)
@@ -157,7 +161,7 @@
 
 
 	//mask
-	if(wear_mask && !skipmask)
+	if(wear_mask && !skipmask && !istype(wear_mask, /obj/item/clothing/mask/gas/voice/yin))
 		if(wear_mask.blood_DNA)
 			msg += "<span class='warning'>[t_He] [t_has] \icon[wear_mask] [wear_mask.gender==PLURAL?"some":"a"] [wear_mask.blood_color != "#030303" ? "blood-stained":"oil-stained"] [wear_mask.name] on [t_his] face!</span>\n"
 		else

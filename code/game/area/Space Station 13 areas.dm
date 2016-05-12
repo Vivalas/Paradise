@@ -2323,6 +2323,13 @@ area/security/podbay
 	name = "\improper Telecoms Power Control"
 	icon_state = "tcomsatwest"
 
+//////// Yin ////////////
+
+/area/shuttle/yin
+	name = "\improper Yin Warship"
+	icon_state = "shuttle"
+	requires_power = 0
+
 // Away Missions
 /area/awaymission
 	name = "\improper Strange Location"
