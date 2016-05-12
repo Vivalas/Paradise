@@ -93,10 +93,11 @@
 /var/const/access_cent_bridge = 113//Bridge.
 /var/const/access_cent_commander = 114//Commander's Office/ID computer.
 
-	//The Syndicate
+	//ANTAGS
 /var/const/access_syndicate = 150//General Syndicate Access
 /var/const/access_syndicate_leader = 151//Nuke Op Leader Access
 /var/const/access_vox = 152//Vox Access
+/var/const/access_yin = 153//Yin Access
 
 	//MONEY
 /var/const/access_crate_cash = 200
@@ -241,7 +242,7 @@
 	return list(access_cent_general, access_cent_living, access_cent_medical, access_cent_security, access_cent_storage, access_cent_shuttles, access_cent_telecomms, access_cent_teleporter, access_cent_specops, access_cent_specops_commander, access_cent_blackops, access_cent_thunder, access_cent_bridge, access_cent_commander)
 
 /proc/get_all_syndicate_access()
-	return list(access_syndicate, access_syndicate_leader, access_vox)
+	return list(access_syndicate, access_syndicate_leader, access_vox, access_yin)
 
 /proc/get_all_misc_access()
 	return list(access_salvage_captain)
@@ -478,6 +479,8 @@
 			return "Syndicate Operative Leader"
 		if(access_vox)
 			return "Vox"
+		if(access_vox)
+			return "Yin Invader"
 
 /proc/get_all_jobs()
 	var/list/all_jobs = list()

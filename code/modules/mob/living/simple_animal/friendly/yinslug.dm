@@ -1,11 +1,11 @@
 /*
-  The squishy things wot pilot a crew member
+  All the mobs related to the Yin go in here
 */
 
 //Mob defines.
 /mob/living/simple_animal/yin
 	name = "yin"
-	desc = "A small, intelligent creature mostly made of nerve tissue. Maybe it needs help finding its vessel?"
+	desc = "A small, intelligent creature mostly made of nerve tissue."
 	icon = 'icons/mob/yin_pilot.dmi'
 	icon_state = "yin"
 	icon_living = "yin"
@@ -156,3 +156,49 @@
 		head.implants += src
 
 	host.status_flags |= PASSEMOTES */
+
+/////////////////////////////////////////////////////
+/////////// Invasion Shells   ///////////////////////
+/////////////////////////////////////////////////////
+
+/mob/living/silicon/robot/yinvader
+	icon = 'icons/mob/yin_pilot.dmi'
+	base_icon = "invader"
+	icon_state = "invader"
+	lawupdate = 0
+	scrambledcodes = 1
+	modtype = "Invader"
+	faction = list("yin")
+	designation = "Yin Invader"
+	req_access = list(access_yin)
+	var/searching_for_ckey = 0
+
+/mob/living/silicon/robot/yinvader/New(loc)
+	..()
+	cell.maxcharge = 50000
+	cell.charge = 50000
+
+/mob/living/silicon/robot/yinvader/init()
+	laws = new /datum/ai_laws/deathsquad
+	module = new /obj/item/weapon/robot_module/yinvader(src)
+
+	aiCamera = new/obj/item/device/camera/siliconcam/robot_camera(src)
+	radio = new /obj/item/device/radio/borg/deathsquad(src)
+	radio.recalculateChannels()
+
+	playsound(loc, 'sound/mecha/nominalsyndi.ogg', 75, 0)
+
+/obj/item/weapon/robot_module/yinvader
+	name = "Yin Combat Module"
+	module_type = "Malf"
+
+/obj/item/weapon/robot_module/yinvader/New()
+	src.modules += new /obj/item/device/flash/cyborg(src)
+	src.modules += new /obj/item/borg/sight/thermal(src)
+	src.modules += new /obj/item/weapon/melee/energy/sword/cyborg(src)
+	src.modules += new /obj/item/weapon/gun/energy/pulse_rifle/cyborg(src)
+	src.modules += new /obj/item/weapon/tank/jetpack/carbondioxide(src)
+	src.modules += new /obj/item/weapon/crowbar(src)
+	src.emag = null
+
+	fix_modules()
