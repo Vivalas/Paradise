@@ -203,6 +203,11 @@
 	for(var/mob/living/M in contents)
 		M.ex_act(intensity)
 
+/obj/item/organ/internal/brain/yinslug/insert()
+	for(var/mob/living/Pilot in contents)
+		Pilot.mind.transfer_to(owner)
+		owner.adjustBrainLoss((60 - src.health)*2)
+
 /obj/item/organ/internal/brain/yinslug/container_resist(var/mob/living/L)
 	var/mob/M = src.loc                      //Get our mob holder (if any).
 
